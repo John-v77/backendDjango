@@ -1,0 +1,15 @@
+
+<div style="display: flex; justify-content: space-around; padding-top:20px">    
+    {% for feature in features %}
+    
+        {% if feature.is_true == True %}
+        <div style="border: solid 1px black; border-radius:5px; padding:10px; width:250px">
+            <h1>{{features.name}}</h1>
+            <h2>{{feature.name}}</h2>
+            <p>{{feature.details}}</p>
+            <p>This feature is true</p>
+        </div>
+        {% endif %}
+    
+    {% endfor %}
+</div>
