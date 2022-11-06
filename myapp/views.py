@@ -29,7 +29,7 @@ def index(request):
     
     features =  [feature1, feature2, feature3, feature4]
     
-    return render(request, 'models.html', {'features': features})
+    return render(request, 'index.html', {'features': features})
 
 
 
