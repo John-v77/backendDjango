@@ -29,7 +29,7 @@
   		<div class="container">
   			<div class="row">
   				<div class="col-lg-6 col-md-4 col-sm-3 tm-site-name-container">
-  					<a href="#" class="tm-site-name">Holiday</a>	
+  					<a href="/" class="tm-site-name">Holiday</a>	
   				</div>
 	  			<div class="col-lg-6 col-md-8 col-sm-9">
 	  				<div class="mobile-menu-icon">
@@ -39,8 +39,16 @@
 						<ul>
 							<li><a href="index.html" class="active">Home</a></li>
 							<li><a href="about.html">About</a></li>
-							<li><a href="tours.html">Our Tours</a></li>
+							<!-- <li><a href="tours.html">Our Tours</a></li>-->
 							<li><a href="contact.html">Contact</a></li>
+							<li>
+								{% if user.is_authenticated %}
+									<a href="logout"> Logout </a>
+								{% else %}
+									<a href="login"> Login </a>
+								{% endif %}
+							</li>
+							
 						</ul>
 					</nav>		
 	  			</div>				
@@ -220,7 +228,13 @@
 			<div class="row">				
 				<div class="tm-section-header">
 					<div class="col-lg-3 col-md-3 col-sm-3"><hr></div>
-					<div class="col-lg-6 col-md-6 col-sm-6"><h2 class="tm-section-title">Lorem Ipsum Dolor</h2></div>
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						{% if user.is_authenticated %}
+							<h2 class="tm-section-title">Welcome {{user.username}}</h2>
+						{% else%}
+							<h2 class="tm-section-title">Lorem Ipsum Dolor</h2>
+						{% endif %}
+					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3"><hr></div>	
 				</div>
 			</div>
