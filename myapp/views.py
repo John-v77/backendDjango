@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Feature
+from .models import Post
 
 # Create your views here.
 def index(request):
@@ -11,12 +12,6 @@ def index(request):
 
 def form(request):
     return render(request, 'form.html')
-
-
-def counter(request):
-    text = request.POST['text']
-    amount_words = len(text.split())
-    return render(request, 'counter.html', {'amount':amount_words})
 
 
 def register(request):
@@ -67,3 +62,19 @@ def logout(request):
     return redirect('/')
 
 
+
+def counter(request):
+    text = request.POST['text']
+    amount_words = len(text.split())
+
+    posts = [1, 2, 3, 4, 5, 'tim', 'tom']
+    return render(request, 'counter.html', {'posts':posts })
+
+
+def post(request, pk):
+    return render(request, 'post.html', {'pk':pk})
+
+
+def blog(request):
+    blogs = Post.objects.all()
+    return render(request, 'blog.html', {'blogs': blogs})
