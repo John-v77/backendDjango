@@ -71,10 +71,10 @@ def counter(request):
     return render(request, 'counter.html', {'posts':posts })
 
 
-def post(request, pk):
-    return render(request, 'post.html', {'pk':pk})
-
-
 def blog(request):
     blogs = Post.objects.all()
     return render(request, 'blog.html', {'blogs': blogs})
+
+def post(request, pk):
+    post = Post.objects.get(id=pk)
+    return render(request, 'post.html', {'post':post})
