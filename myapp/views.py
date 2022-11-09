@@ -6,18 +6,29 @@ from .models import Post
 import json
 import urllib.request
 
-# for api
-
 # Create your views here.
+
+
+
+#first page - form page
+def form(request):
+    return render(request, 'form.html')
+
+def counter(request):
+    text = request.POST['text']
+    amount_words = len(text.split())
+
+    posts = [1, 2, 3, 4, 5, 'tim', 'tom']
+    return render(request, 'counter.html', {'posts':posts })
+
+
+
+# Dynamic Data - Models - Query Database. 
 def index(request):
     features = Feature.objects.all()
     return render(request, 'index.html', {'features': features})
 
-
-def form(request):
-    return render(request, 'form.html')
-
-
+# Authentication - 
 def register(request):
     if request.method != 'POST':
         return render(request, 'register.html')
@@ -67,14 +78,10 @@ def logout(request):
 
 
 
-def counter(request):
-    text = request.POST['text']
-    amount_words = len(text.split())
-
-    posts = [1, 2, 3, 4, 5, 'tim', 'tom']
-    return render(request, 'counter.html', {'posts':posts })
 
 
+
+# Blog page
 def blog(request):
     blogs = Post.objects.all()
     return render(request, 'blog.html', {'blogs': blogs})
@@ -83,6 +90,8 @@ def post(request, pk):
     post = Post.objects.get(id=pk)
     return render(request, 'post.html', {'post':post})
 
+
+# Stock Market page - Api app
 def stockMarket(request):
     if request.method != 'POST':
         stockSymbol = ''
