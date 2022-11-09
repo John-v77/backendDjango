@@ -3,6 +3,10 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Feature
 from .models import Post
+import json
+import urllib.request
+
+# for api
 
 # Create your views here.
 def index(request):
@@ -78,3 +82,33 @@ def blog(request):
 def post(request, pk):
     post = Post.objects.get(id=pk)
     return render(request, 'post.html', {'post':post})
+
+def stockMarket(request):
+    if request.method != 'POST':
+        stockSymbol = ''
+        data={}
+
+    else:
+        stockSymbol = request.POST['stockSearched']
+
+        # api - call
+        key1 = 'pk_c7b814fba9a24e41968fa5eb41f9a1d3'
+        api_link = 'https://cloud.iexapis.com/stable/stock/'+ stockSymbol +'/quote?token=' + key1
+
+        
+        
+        res = urllib.request.urlopen(api_link).read()
+        json_data = json.loads(res)
+        data = str(json_data)
+        
+        data = {
+            "name":str(json_data['companyName']),
+            "symbol":str(json_data['symbol']),
+            "week52High":str(json_data['week52High']),
+            "week52Low":str(json_data['week52Low']),
+            "ytdChange":str(round((json_data['ytdChange']*100), 2)),
+            "todayChange":str(json_data['change']),
+            "todayChangePercent":str(round((json_data['changePercent']*100), 2)),
+            "latestPrice":str(json_data['latestPrice']),
+        }
+    return render(request, 'stock-market.html', {'data': data})

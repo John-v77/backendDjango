@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock market</title>
+</head>
+<body style="background-color: gainsboro;">
+    <header style="padding: 20px; margin:0;">
+        <h1 style="text-align:center;">This is the Stock market page API</h1>
+    </header>
+
+    <section class="weather-info" style="width: 30rem; margin:0 auto;">
+        <form method="post" action="" style="text-align:center;">
+            {% csrf_token %}
+            <input type="text" name='stockSearched' placeholder="stock" />
+            <input type="submit">
+        </form>
+        <div class="weather-details" style="margin: 40px auto; background:white; padding:20px; ">
+            <h3>Company name: {{ data.name }} </h3>
+            <p><b>Symbol:</b> {{ data.symbol }}</p>
+            <p><b>Price:</b> ${{ data.latestPrice }}</p>
+            <p><b>Today Change:</b> ${{ data.todayChange }}</p>
+            <p><b>Today Change Percentage:</b> {{ data.todayChangePercent }}% </p>
+            <p><b>Year Change Percent:</b> {{ data.ytdChange }}%</p>
+            <p><b>Year Lowest Price:</b> ${{ data.week52Low }}</p>
+            <p><b>Year Highest Price:</b> ${{ data.week52High }}</p>
+
+        </div>
+    </section>
+    
+</body>
+</html>
+
+
