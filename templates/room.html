@@ -1,25 +1,56 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+    <link href="{% static 'css/pages-style/chat-page/chat-room.style.css' %}" rel="stylesheet">
+</head>
 </head>
 <body>
 
-<h2>{{room}}</h2>
+<h2>Room: {{room}}</h2>
 
 <div id="display">
 
-<!-- <div class="container darker">
+ <div class="container darker">
   <b>Tom</b><p>Hello Everyone, How Are You Guys Doing?</p>
   <span class="time-left">20th, April 2021</span>
-</div> -->
+</div> 
 
 </div>
 
+<script>
+    $(document).ready(function(){
+        setInterval(function(){
+            $.ajax({
+                type: 'GET',
+                url: "/getMessages/{{ room }}/",
+                success: function(response){
+                    console.log(response)
+                    $("#display").empty();
+                    for(let key in response.messages){
+                        let temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                        $("#display").append(temp);
+                        // let temp="<div class='container dark'><b>"+ response.messages[key].user + "</b></p>"
+                    }
+                },
+                error: function(response){
+                    alert('An error ocured')
+                }
+            })
+        }, 3000)
+    })
+</script>
 
 
-<div class="container">
+<div class="container">    
     <form id="message-form">
         {% csrf_token %}
         <input type="hidden" name="username" id="username" value="{{username}}"/>
@@ -50,6 +81,7 @@
                 },
             success: function (response) {
                 console.log(response, typeof(response))
+                // alert(response)
             }
         })
         document.getElementById('message').value = ''
