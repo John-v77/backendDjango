@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Feature
-from .models import Post
+from .models import Feature, Post, Room, Message 
 import json
 import urllib.request
 
@@ -81,7 +80,7 @@ def logout(request):
 
 
 
-# Blog page
+# Blog page - App
 def blog(request):
     blogs = Post.objects.all()
     return render(request, 'blog.html', {'blogs': blogs})
@@ -121,3 +120,22 @@ def stockMarket(request):
             "latestPrice":str(json_data['latestPrice']),
         }
     return render(request, 'stock-market.html', {'data': data})
+
+
+# Chat app
+def chat(request):
+    return render(request, 'chat.html')
+
+def room(request, room):
+    return render(request, 'room.html')
+
+def checkview(request):
+    room = request.POST['room_name']
+    username = request.POST['username']
+
+    if Room.objects.filter(name=room).exists(): 
+         return redirect('/'+room+'/?username='+username)
+    else:
+        new_room = Room.objects.create(name=room)
+        new_room.save()
+        return redirect('/'+room+'/?username='+username)

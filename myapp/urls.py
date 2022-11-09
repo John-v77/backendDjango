@@ -11,4 +11,8 @@ urlpatterns = [
     path('stock', views.stockMarket, name='stockMarket'),
     path('blog', views.blog, name='blog'),
     path('post/<str:pk>', views.post, name='post'),
+    path('chat', views.chat, name='chat'),
+    path('checkview', views.checkview, name='checkview'),
+    path('<str:room>/', views.room, name='room'),
+    
 ]
