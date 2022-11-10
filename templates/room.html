@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room</title>
     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-
+    <script  type="text/javascript" src="{% static 'js/app-pages/room.js' %}"></script>
 
     <link href="{% static 'css/pages-style/chat-page/chat-room.style.css' %}" rel="stylesheet">
 </head>
@@ -27,26 +27,26 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        setInterval(function(){
-            $.ajax({
-                type: 'GET',
-                url: "/getMessages/{{ room }}/",
-                success: function(response){
-                    console.log(response)
-                    $("#display").empty();
-                    for(let key in response.messages){
-                        let temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                        $("#display").append(temp);
-                        // let temp="<div class='container dark'><b>"+ response.messages[key].user + "</b></p>"
-                    }
-                },
-                error: function(response){
-                    alert('An error ocured')
-                }
-            })
-        }, 3000)
-    })
+    // $(document).ready(function(){
+    //     setInterval(function(){
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: "/getMessages/{{ room }}/",
+    //             success: function(response){
+    //                 console.log(response)
+    //                 $("#display").empty();
+    //                 for(let key in response.messages){
+    //                     let temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+    //                     $("#display").append(temp);
+    //                     // let temp="<div class='container dark'><b>"+ response.messages[key].user + "</b></p>"
+    //                 }
+    //             },
+    //             error: function(response){
+    //                 alert('An error ocured')
+    //             }
+    //         })
+    //     }, 3000)
+    // })
 </script>
 
 
@@ -60,33 +60,6 @@
     </form>
 </div>
 
-<script type="text/javascript">
-    $(document).on('submit', '#message-form', function(e){
-        e.preventDefault()
-
-        console.log('sending')
-        let csrftoken = '{{ csrf_token }}'
-
-
-
-        $.ajax({
-            type: "POST",
-            headers:{'X-CSRFToken':csrftoken},
-            url: '/send',
-            data: {
-                    username:$('#username').val(),
-                    room_id:$('#room_id').val(),
-                    message:$('#message').val(),
-                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                },
-            success: function (response) {
-                console.log(response, typeof(response))
-                // alert(response)
-            }
-        })
-        document.getElementById('message').value = ''
-    })
-</script>
 </body>
 
 </html>
